@@ -1,0 +1,7 @@
+
+build/
+Library/il2cpp_cache
+Library/metadata
+Library/PackageCache
+Library/ShaderCache
+Temp
