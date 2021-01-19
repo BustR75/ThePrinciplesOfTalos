@@ -8,6 +8,7 @@ using Extentions;
 
 namespace Apotheosis.Cheat
 {
+    // checks for cheat codes
     public class CheatCodeManager : MonoBehaviour
     {
         public static CheatCodeManager _instance;
@@ -19,13 +20,16 @@ namespace Apotheosis.Cheat
             _instance = this;
             ReloadCheats();
         }
+        // gets all cheats in anything loaded into the game
         public void ReloadCheats()
         {
+            // remove so no dupes or null values due to hot loading
             cheats.Clear();
             foreach(Assembly a in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach(Type t in a.GetTypes().Where(x=> x.BaseType == typeof(CheatCode) && !x.IsAbstract))
                 {
+                    //create a instance of the cheat
                     cheats.Add(t.Name.ToLower(),(Activator.CreateInstance(t) as CheatCode));
                 }
             }
@@ -61,6 +65,7 @@ namespace Apotheosis.Cheat
     {
         public abstract void Method();
     }
+    // only used in the editor
 #if UNITY_EDITOR
     public class Help : CheatCode
     {
@@ -106,6 +111,7 @@ namespace Apotheosis.Cheat
             b.RandomColor = true;
         }
     }
+    // makes birds rainbow
     public class Jeb_ : CheatCode
     {
         public override void Method()
@@ -116,6 +122,7 @@ namespace Apotheosis.Cheat
             }
         }
     }
+    // add trail renderer to plauer
     public class Tail : CheatCode
     {
         public override void Method()
@@ -123,12 +130,12 @@ namespace Apotheosis.Cheat
             TrailRenderer r = SceneManager.robot.GetAddComponent<TrailRenderer>();
             r.widthCurve = new AnimationCurve(new Keyframe(0, .1f),new Keyframe(.1f, .5f), new Keyframe(1, 0f));
 
-
+            // create rainbow gradient
             r.colorGradient = new Gradient()
             {
                 colorKeys = new GradientColorKey[] 
                 {
-                    new GradientColorKey(Color.red, 0),
+                    new GradientColorKey(new Color(1, 0, 0), 0),
                     new GradientColorKey(new Color(1, 0.1764706f, 0), .154f),
                     new GradientColorKey(new Color(0.8627451f, 1, 0), .344f),
                     new GradientColorKey(new Color(0.3607843f, 1, 0), .395f),
@@ -138,10 +145,15 @@ namespace Apotheosis.Cheat
                     new GradientColorKey(new Color(1, 0, 1), 1f)
                 }
             };
+            // how long in memory a position is
             r.time = 1f;
+            // make sure that trail isn't pink
             r.material = new Material(Shader.Find("Sprites/Default"));
         }
     }
+    //fly around
+    //insperation from idclip from doom
+    // currently create null reference exception Fixed
     public class Clip : CheatCode
     {
         bool enabled = false;
@@ -149,17 +161,17 @@ namespace Apotheosis.Cheat
         {
             enabled = !enabled;
             if (enabled)
-                CheatCodeManager._instance.StartCoroutine(Flight());
+                PlayerController._instance.StartCoroutine(Flight());
         }
         IEnumerator Flight()
         {
-            SceneManager.robot.Rigidbody.simulated = false;
+            PlayerController._instance.Rigidbody.simulated = false;
             while (enabled)
             {
-                SceneManager.robot.transform.position += new Vector3(Input.GetAxis("Horizontal") * PlayerController._instance.Speed * Time.deltaTime, Input.GetAxis("Vertical") * PlayerController._instance.Speed * Time.deltaTime, 0);
+                PlayerController._instance.transform.position += new Vector3(Input.GetAxis("Horizontal") * PlayerController._instance.Speed * Time.deltaTime, Input.GetAxis("Vertical") * PlayerController._instance.Speed * Time.deltaTime, 0);
                 yield return new WaitForEndOfFrame();
             }
-            SceneManager.robot.Rigidbody.simulated = true;
+            PlayerController._instance.Rigidbody.simulated = true;
             yield break;
         }
     }

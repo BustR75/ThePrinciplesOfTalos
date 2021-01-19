@@ -12,6 +12,7 @@ namespace Assets.Scripts
     {
         private void Update()
         {
+            // apply paralax effect
             transform.position = new Vector3(Camera.main.transform.position.x*.9f, Camera.main.transform.position.y*.9f, 10);
         }
     }

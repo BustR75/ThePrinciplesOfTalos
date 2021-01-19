@@ -4,6 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
+// base object for things that can be grabbed
+// allows for easy modding 
 public abstract class Grabable : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;

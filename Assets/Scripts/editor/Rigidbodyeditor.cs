@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 [CustomEditor(typeof(Rigidbody2D))]
+//Only used for debugging jump
 public class Rigidbodyeditor : Editor
 {
     Vector2 force = new Vector2();
     ForceMode2D forceMode = ForceMode2D.Impulse;
     public override void OnInspectorGUI()
     {
+        // allow defalt gui
         base.OnInspectorGUI();
         if (Application.isPlaying)
         {

@@ -29,6 +29,8 @@ namespace Menu
             }
         }
         public static MenuManager instance;
+        // if there are two menus with the same name it will grab the first one
+        // mods should use guid when creating a menu
         public string CurrentMenu ="Main";
             
         GameObject CurrentMenuGameObject {
@@ -67,6 +69,7 @@ namespace Menu
             rect.localPosition = new Vector3(-90 + (180 * x), 140 - (60 * y), 0);
         }
     }
+    // menu in menu
     public class NestedMenu : BaseButton
     {
         public GameObject Menu;
@@ -88,6 +91,7 @@ namespace Menu
             });
         }
     }
+    // normal button used everywhere
     public class SingleButton : BaseButton
     {
         public SingleButton(string Menu,string Name,float x, float y, UnityAction action)
@@ -99,6 +103,7 @@ namespace Menu
             gObject.GetComponent<Button>().onClick.AddListener(action);
         }
     }
+    // allows for bools easily
     public class Toggle : BaseButton
     {
         public Toggle(string Menu, string Name, float x, float y, UnityAction<bool> action)
@@ -110,6 +115,7 @@ namespace Menu
             gObject.GetComponent<UnityEngine.UI.Toggle>().onValueChanged.AddListener(action);
         }
     }
+    // text in the menu
     public class Label : BaseButton
     {
         public Label(string Menu, string Name, float x, float y,int fontsize = 14)
@@ -122,6 +128,7 @@ namespace Menu
             SetPosition(x, y);
         }
     }
+    // used mainly for main menu
     public class Image : BaseButton
     {
         public Image(string Menu, Sprite image, float x, float y, float height, float width)
@@ -133,6 +140,7 @@ namespace Menu
             SetPosition(x, y);
         }
     }
+    //slider between two values
     public class Slider : BaseButton
     {
         public SliderMono sliderObject;

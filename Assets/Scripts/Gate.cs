@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
+
 public class Gate : MonoBehaviour
 {
     public List<GameObject> keepactive = new List<GameObject>();
@@ -21,6 +22,7 @@ public class Gate : MonoBehaviour
             keepactive.Add(self);
         else
             keepactive.Remove(self);
+        // allows for redundent sources
         if (keepactive.Count > 0)
         {
             renderer.sprite = sprites[1];
@@ -36,6 +38,7 @@ public class Gate : MonoBehaviour
     }
     void Update()
     {
+        // gives glow effect
         renderer.color = Color.HSVToRGB(0, 0, Mathf.PingPong(Time.time*.2f,.5f)+.5f);
     }
 }

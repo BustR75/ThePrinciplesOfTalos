@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 namespace Menu
 {
+    // allows for logging
     public class Hud : MonoBehaviour
     {
         public static Hud Instance;

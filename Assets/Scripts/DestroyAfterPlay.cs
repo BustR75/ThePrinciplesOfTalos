@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
+// used for particle systems so that less memory is used needlessly
 public class DestroyAfterPlay : MonoBehaviour
 {
     public float time;
@@ -12,6 +13,7 @@ public class DestroyAfterPlay : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        //count down
         time -= Time.deltaTime;
     }
 }
